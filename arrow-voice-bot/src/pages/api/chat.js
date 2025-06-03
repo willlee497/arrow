@@ -31,6 +31,7 @@ Always sound energetic, smart, and collaborative. Include details that show init
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "OpenAI-Project": "proj_FDym5DuHLjuW5MOxQcjC3Odf",
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
