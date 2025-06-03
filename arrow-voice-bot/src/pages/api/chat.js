@@ -2,7 +2,6 @@ export default async function handler(req, res) {
   try {
     let { prompt } = req.body;
 
-    // Capitalize first letter of input
     prompt = prompt.charAt(0).toUpperCase() + prompt.slice(1);
 
     console.log("Prompt being sent:", prompt);
@@ -31,7 +30,6 @@ Always sound energetic, smart, and collaborative. Include details that show init
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        "OpenAI-Project": "proj_FDym5DuHLjuW5MOxQcjC3Odf",
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",

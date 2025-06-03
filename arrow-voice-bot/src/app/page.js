@@ -47,6 +47,14 @@ export default function Home() {
     recognitionRef.current = recognition;
   };
 
+  const stopSpeaking = () => {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+    setTranscript('');
+    setResponse('');
+  };
+
   const speak = (text) => {
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(text);
@@ -58,13 +66,31 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-sky-100 text-black flex flex-col items-center justify-center p-6">
+      <div className="text-left mb-6 max-w-2xl">
+        <h2 className="font-bold text-xl mb-2">Suggested Questions:</h2>
+        <ul className="list-disc list-inside text-black space-y-1">
+          <li>What are your skills?</li>
+          <li>Why Arrow?</li>
+          <li>What have you built?</li>
+          <li>Tell me about a time you debugged in production.</li>
+          <li>What are you most proud of building?</li>
+        </ul>
+      </div>
       <h1 className="text-3xl font-bold mb-4">🎙️ Talk to WilliamAI</h1>
-      <button
-        onClick={startListening}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full text-lg"
-      >
-        Start Talking
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={startListening}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full text-lg"
+        >
+          Start Talking
+        </button>
+        <button
+          onClick={stopSpeaking}
+          className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full text-lg"
+        >
+          Stop
+        </button>
+      </div>
       <div className="mt-6 w-full max-w-2xl">
         <p><strong>You asked:</strong> {transcript}</p>
         <p className="mt-4"><strong>WilliamAI says:</strong> {response}</p>
