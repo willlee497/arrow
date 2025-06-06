@@ -47,6 +47,7 @@ class Flight:
 
 class BookingSystem:
     def __init__(self):
+        #internal mapping from flight numbers to flight instances
         self._flights = {} #dictionary for mapping each flights unique ID (the flight number string) to its Flight instance
         #so we know what to refer to
 
@@ -141,4 +142,39 @@ class TestBookingSystem(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    """
+    unit tests,
+    TestFlight: initial seat count, booking success/failure, duplicate bookings, cancellations
+    TestBookingSystem: adding flights, booking/cancelling across flights, invalid flight handling
+    """
+    unittest.main(exit=False) #run tests but dont exit @end 
+
+    #example usage to see results printed below
+    print("\n--- Example Usage Outputs ---")
+
+    #sample flights
+    flight_ke = Flight("KE001", "Seoul", "Los Angeles", 2) #2 seats
+    flight_dl = Flight("DL002", "Atlanta", "Paris", 1) #1 seat
+    flight_ca = Flight("CA003", "Beijing", "Sydney", 3) #3 seats
+
+    system = BookingSystem()
+    system.add_flight(flight_ke)
+    system.add_flight(flight_dl)
+    system.add_flight(flight_ca)
+
+    #bookings
+    print("Booking KE001 for Connor McGregor:", system.book_flight("KE001", "Connor McGregor")) #true since seats are still available
+    print("Booking KE001 for Floyd Mayweather:", system.book_flight("KE001", "Floyd Mayweather")) #true since seats are still available
+    print("Booking KE001 for Mike Tyson:", system.book_flight("KE001", "Mike Tyson")) #false since we ran out
+
+    print("Cancel KE001 for Floyd Mayweather:", system.cancel_booking("KE001", "Floyd Mayweather")) #true on success
+    print("Booking KE001 for Mike Tyson:", system.book_flight("KE001", "Mike Tyson")) #true since we got seats again
+
+    #bookings
+    print("Booking DL002 for Jon Jones:", system.book_flight("DL002", "Jon Jones")) #true since 1 seat left
+    print("Booking DL002 for Bruce Lee:", system.book_flight("DL002", "Bruce Lee")) #false since none left
+
+    #bookings
+    print("Booking CA003 for Bruce Lee:", system.book_flight("CA003", "Bruce Lee")) #true since seats are still available
+    print("Booking CA003 for Mike Tyson:", system.book_flight("CA003", "Mike Tyson"))  #true since seats are still available
+    print("Seats left on CA003:", flight_ca.get_available_seats()) #return the last seat 
